@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="dao.UserMapper">
+	<!-- sql元素：定义可重用的SQL代码片段 -->
+	<!-- 定义查询所有 -->
+	<sql id="all">*</sql>
+	<!-- 定义查询列 -->
+	<sql id="UserColumns">userid,username</sql>
+	<!-- 定义表的前缀名 -->
+	<sql id="tablename">
+		${prefix}s
+	</sql>
+	<!-- 定义查询的表 -->
+	<sql id="someinclude">from <include refid="${inculde_target}"/></sql>
+	
+	
+	<select id="getUserList" resultType = "pojo.User" timeout="20" flushCache="true">
+		select <include refid="all"/> from users
+	</select>
+	
+	<select id="testone" resultType = "pojo.User" timeout="20" flushCache="true">
+		select <include refid="all"/>
+		 <include refid="someinclude">
+		 	<property name="prefix" value="user"/>
+		 	<property name="inculde_target" value="tablename"/>
+		 </include>
+	</select>
+	
+		
+	<select id="findUserByIdName" resultType="pojo.User" timeout="20" flushCache="true">
+		select * from users where username like concat('%',#{username},'%') and userid = #{userid}
+	</select>
+	
+	<delete id="deletUserByid" parameterType="int" > 
+		DELETE from users
+			where userid = #{id}
+	</delete>
+</mapper>

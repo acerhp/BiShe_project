@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 通过这个配置文件完成Mybatis与数据库连接 -->
+<configuration>
+	<!-- 通过外部指定的方式 -->
+	<properties resource="database.properties"/>
+
+	<settings>
+		<setting name="logImpl" value="log4j"/>	
+	</settings>
+	
+	
+	<environments default="development">
+		<environment id="development">
+		<!-- 配置事务管理，采用JDBC的事务管理器，也可以用MANAGED -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 配置数据源UNPOOLED POOLED JNDI -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+	<!-- 用来定义SQL的映射语句:表示告诉Mybatis框架去哪里找到相应的SQL映射语句，可以使用类资源路径或URL -->
+		<mapper resource="dao/UserMapper.xml" />
+	</mappers>
+</configuration>
